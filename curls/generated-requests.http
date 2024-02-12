@@ -1,5 +1,5 @@
 ###
-GET http://localhost:8080/chat
+GET http://localhost:8080/mc-chat/env
 
 ###
 GET http://localhost:8080/ai-test/poem?topic=java&length=3

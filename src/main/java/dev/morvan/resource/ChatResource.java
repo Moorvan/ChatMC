@@ -7,7 +7,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-@Path("/chat")
+@Path("/mc-chat")
 public class ChatResource {
 
     @ConfigProperty(name = "env")
@@ -15,7 +15,8 @@ public class ChatResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/env")
     public Uni<String> env() {
-        return Uni.createFrom().item("hello" + env);
+        return Uni.createFrom().item("hello " + env);
     }
 }
