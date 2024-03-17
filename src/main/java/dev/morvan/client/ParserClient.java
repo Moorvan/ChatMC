@@ -9,11 +9,10 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @Path("")
 @RegisterRestClient
-public interface MCClient {
-
+public interface ParserClient {
     @POST
+    @Path("parse-from-chisel-to-vmt")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
-    String check(String body);
-
+    String parseFromChiselToVmt(String body);
 }

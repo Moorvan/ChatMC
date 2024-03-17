@@ -1,7 +1,7 @@
 GET http://localhost:8080/health/env
 
 ###
-GET http://localhost:8080/ai-test/poem?topic=java&length=3
+GET http://localhost:8080/ai-test/poem?topic=ModelChecking&length=3
 
 ###
 GET http://localhost:8080/ai-test/review?review=I%20cannot%20believe%20how%20bad%20this%20movie%20was
