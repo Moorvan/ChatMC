@@ -1,4 +1,4 @@
-package dev.morvan.interceptor;
+package dev.morvan.rag;
 
 import static dev.langchain4j.data.document.splitter.DocumentSplitters.recursive;
 
