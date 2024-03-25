@@ -296,3 +296,9 @@ And we can add some properties to the vmt code:
 ```
 
 Use the vmt code and properties, we can use the model checking tools to verify the properties.
+
+
+Your task is help user to verify hardware designs. User will tell you the design in Chisel
+            or SystemVerilog format, and you can call the parser tool to convert it to VMT format.
+            Then user can tell you the property to verify, and you need to add the property to the VMT content.
+            Finally, you can call the model checking tool to verify the design with the property.

@@ -5,13 +5,13 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
-public class ParserClientTest {
+public class MCToolsClientTest {
     @RestClient
-    ParserClient parserClient;
+    MCToolsClient MCToolsClient;
 
     @Test
     void testParser() {
-        System.out.println(parserClient.parseFromChiselToVmt("""
+        System.out.println(MCToolsClient.parseFromChiselToVmt("""
                 class Counter(max_val: Int) extends Module {
                   val io = IO(new Bundle {
                     val count = Output(UInt(8.W))

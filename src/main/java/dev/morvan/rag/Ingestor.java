@@ -31,12 +31,12 @@ public class Ingestor {
     @ConfigProperty(name = "prompts.init.filepath")
     String originalDirPath;
 
-    public void ingest(@Observes StartupEvent event) {
-        List<Document> documents = FileSystemDocumentLoader.loadDocuments(
-                new File(originalDirPath).toPath(),
-                new TextDocumentParser());
-        ingest(documents);
-    }
+//    public void ingest(@Observes StartupEvent event) {
+//        List<Document> documents = FileSystemDocumentLoader.loadDocuments(
+//                new File(originalDirPath).toPath(),
+//                new TextDocumentParser());
+//        ingest(documents);
+//    }
 
     public void ingest(String filePath) {
         Document document = FileSystemDocumentLoader.loadDocument(
