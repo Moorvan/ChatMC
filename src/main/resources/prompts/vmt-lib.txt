@@ -1,0 +1,44 @@
+Verification Modulo Theories was originally proposed in the Rich-Model Toolkit meeting held in Turin in 2011 (see slides below).
+Since then, a format has been defined (see below), and is now supported by the the nuXmv model checker.
+The VMT format is an extension of the SMT-LIBv2 (SMT2 for short) format to represent symbolic transition systems. VMT exploits the capability offered by the SMT2 language of attaching annotations to terms and formulas in order to specify the components of the transition system and the properties to verify.
+Core language
+
+In the core VMT-LIB language, the following annotations are used:
+:next name is used to represent state variables. For each variable x in the model, the VMT file contains a pair of variables, xc and xn, representing respectively the current and next version of x. The two variables are linked by annotating xc with the attribute :next xn. All the variables that are not in relation with another by means of a :next attribute are considered inputs.
+:init is used to specify the formula for the initial states of the model. This formula should contain neither next-state variables nor input variables.
+:trans is used to specify the formula for the transition relation.
+:invar-property idx is used to specify invariant properties, i.e. formulas of the form Gp, where p is the formula annotated with :invar-property. The non-negative integer idx is a unique identifier for the property.
+:live-property idx is used to specify an LTL property of the form F Gp, where p is the formula annotated with :live-property. The non-negative integer idx is a unique identifier for the property.
+
+In a VMT file, only annotated terms and their sub-terms are meaningful. Any other term is ignored. Moreover, only the following commands are allowed to occur in VMT files: set-logic, set-option, declare-sort, define-sort, declare-fun, define-fun (For convenience, an additional (assert true) command is allowed to appear at the end of the file).
+The following example shows a simple NUXMV model and its corresponding VMT translation.
+
+nuXmv
+-- this is a comment
+MODULE main
+VAR x : integer;
+IVAR b : boolean;
+INIT x = 1;
+TRANS
+next(x) = b ? x + 1 : x;
+INVARSPEC x > 0;
+LTLSPEC FG x > 10;
+
+VMT
+; this is a comment
+(declare-const x Int)
+(declare-const x.next Int)
+(define-fun sv.x () Int (! x :next x.next))
+(declare-const b Bool)
+(define-fun init () Bool (! (= x 1) :init true))
+(define-fun trans () Bool
+   (! (= x.next (ite b (+ x 1) x)) :trans true)
+(define-fun p1 () Bool (! (> x 0) :invar-property 1))
+(define-fun p2 () Bool (! (> x 10) :live-property 2))
+
+Since the SMT2 format (and thus also the VMT one that inherits from SMT2) does not allow to annnotate the declaration of variables, it is a good practice to insert immediately after the declaration of the variables a set of defines to specify the relations among variables. See for instance the define sv0 in the example above that introduces the relation between x and xn.
+Language extensions
+The following annotations are not part of the core language, but are defined as syntactic sugar to model higher level constructs. They can be removed by the vmtext2core.py script that is part of the vmt-tools package (see below):
+:invar is used to specify additional invariant constraints (that must always hold).
+:ltl-property idx is used to specify an arbitrary LTL property, using the built-in functions ltl.X, ltl.F, ltl.G and ltl.U to represent temporal operators.
+multiple formulas annotated with the same :live-property idx annotation (with the same index value) are considered multi-fairness constraints, and interpreted as FGp1 | ... | FGpn

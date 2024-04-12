@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Interface</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .chat-container { display: flex; flex-direction: column; margin: 10px; }
+    .message { border: 1px solid #ccc; border-radius: 10px; padding: 10px; margin: 5px; }
+    .user-message { align-self: flex-end; background-color: #dcf8c6; }
+    .bot-message { align-self: flex-start; background-color: #eee; }
+  </style>
+</head>
+<body>
+<div class="chat-container" id="chat-container">
+  <!-- Chat messages will be added here dynamically -->
+</div>
+<input type="text" id="message-input">
+<button onclick="sendMessage()">Send</button>
+
+<script>
+  var ws = new WebSocket("ws://localhost:8080/mc-chat");
+
+  ws.onmessage = function(event) {
+    var message = JSON.parse(event.data);
+    addMessage(message.text, 'bot-message');
+  };
+
+  function sendMessage() {
+    var input = document.getElementById('message-input');
+    var message = { text: input.value };
+    ws.send(JSON.stringify(message));
+    addMessage(input.value, 'user-message');
+    input.value = '';        }
+
+  function addMessage(text, className) {
+    var container = document.getElementById('chat-container');
+    var messageDiv = document.createElement('div');
+    messageDiv.className = 'message ' + className;
+    messageDiv.textContent = text;
+    container.appendChild(messageDiv);
+  }
+</script>
+</body>
+</html>

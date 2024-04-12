@@ -9,7 +9,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.quarkiverse.langchain4j:quarkus-langchain4j-openai:0.8.0'
+    implementation 'io.quarkus:quarkus-rest-client-reactive-jackson'
+    implementation 'io.quarkiverse.langchain4j:quarkus-langchain4j-redis:0.9.1'
+    implementation 'io.quarkus:quarkus-websockets'
+    implementation 'io.quarkiverse.langchain4j:quarkus-langchain4j-openai:0.9.1'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-resteasy-reactive-jackson'
     implementation 'io.quarkus:quarkus-arc'
